@@ -47,7 +47,7 @@ const subModel= new mongoose.Schema({
         message:"start  date must  be in past"
      }
  },
- renawlDate:{
+ renewalDate:{
     type:Date,
     required:true,
     validate:{
@@ -57,4 +57,42 @@ const subModel= new mongoose.Schema({
        message:"renawlDate must be in past"
     }
 },
+user:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"User",
+    required:true
+},
+cancelDate:{
+    type:Date,
+    default:null
+},
+cancelReason:{
+    type:String,
+    default:null
+},
+canceledBy:{
+    type:String,
+    enum:['user','admin'],
+    default:"user"
+}
 },{timestamps:true});
+
+subModel.pre("save", function(next) {
+    if (!this.renewalDate) {
+        const renewalPeriods = {
+            daily: 1,
+            weekly: 7,
+            monthly: 30,
+            yearly: 365
+        }
+
+        this.renewalDate = new Date(this.startDate)
+        this.renewalDate.setDate(this.renewalDate.getDate() + renewalPeriods[this.frequency])
+    }
+
+    if (this.renewalDate < new Date()) {
+        this.status = "expired"
+    }
+
+    next()
+})
