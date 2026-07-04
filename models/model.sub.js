@@ -54,7 +54,7 @@ const subModel= new mongoose.Schema({
        validator:function(value){
        return value <= this.startDate()
        },
-       message:"renawlDate must be in past"
+       message:"renewalDate must be in past"
     }
 },
 user:{
@@ -96,3 +96,5 @@ subModel.pre("save", function(next) {
 
     next()
 })
+const subscription= mongoose.model("Subscription", subModel)
+export default subscription;
