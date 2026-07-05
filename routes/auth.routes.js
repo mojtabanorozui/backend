@@ -1,14 +1,9 @@
 import Router from "express"
+import { sginIn, sginOut, sginUp } from "../conrollers/auth.controller"
 
 const authRouter=Router()
-
-authRouter.post("/sgin-up",(req,res)=>{
-    res.send({massge:"sign-up"})
-})
-authRouter.post("/sginin",(req,res)=>{
-    res.send({massge:"sigin"})
-})
-authRouter.post("/sginup",(req,res)=>{
-    res.send({massge:"sigup"})
-})
+// Path :/api/v1/auth/sign-up (POST)
+authRouter.post("/sgin-up",sginUp)
+authRouter.post("/sgin-in",sginIn)
+authRouter.post("/sgin-out",sginOut)
 export default authRouter
