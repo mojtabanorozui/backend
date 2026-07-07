@@ -14,7 +14,7 @@ const userShcema= new mongoose.Schema({
         required:[true,"user name is requierd"],
         trim:true,
         unique:true,
-        lowerCase:true,
+        lowercase:true,
         minLength:5,
         maxLength:220,
         match:[/\S+@\S+\S+/, 'plz filla valid email address']
@@ -26,7 +26,7 @@ const userShcema= new mongoose.Schema({
         minLength:6,
     },
     
-},{Timestamp:true})
+},{timestamps:true})
                    
 const User =mongoose.model('User',userShcema)
 

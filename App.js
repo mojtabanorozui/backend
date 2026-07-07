@@ -2,7 +2,7 @@ import express from "express"
 import userRouter from "./routes/user.routes.js"
 import authRouter from "./routes/auth.routes.js"
 import subscribers from "./routes/sub.routes.js"
-import errorMiddleware from "./middlewaers/error.middlewaer.js"
+import errorMiddleware from "./middlewares/error.middlewaer.js"
 import cookieParser from "cookie-parser"
 const app=express()
 app.use(express.json())
