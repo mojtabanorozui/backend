@@ -22,6 +22,7 @@ export const sginUp = async (req, res ,next) => {
          const token= jwt.sign({userId: NewUsers[0]._id},JWT_SECRET , {expiresIn:JWT_EXPIRES_IN})
          await session.commitTransaction()
          session.endSession()
+
          res.status(201).json({
           success:true,
           message:"User created succsesfuly",
@@ -37,7 +38,33 @@ export const sginUp = async (req, res ,next) => {
          next(error)
     }
 }
-export const sginIn =async(req,res)=>{}
+export const sginIn =async(req,res,next)=>{
+     try{
+        const {email,password}= req.body
+        const  user = await User.findOne({email})
+        if(!user){
+          const error = new Error("invalid email ")
+          error.statusCode=404
+          throw error
+        }
+        const isPasswordCorrect = await bcrypt.compare(password,user.password)
+        if(!isPasswordCorrect){
+          const error = new Error("invaild passoword")
+          error.statusCode=401
+          throw error
+        }
+        const token= jwt.sign({userId: user._id},JWT_SECRET , {expiresIn:JWT_EXPIRES_IN}) 
+        res.status(200).json({
+          success:true,
+          message:"User logged in successfully",
+          data:{
+               token,
+               user
+          }
+         })
+      } catch (error) {
+        next(error);
+      }
+    };
 
-
-export const sginOut= async(req,res)=>{}
+export const sginOut = async (req, res) => {};
