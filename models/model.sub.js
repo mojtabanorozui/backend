@@ -96,5 +96,5 @@ subModel.pre("save", function(next) {
 
     next()
 })
-const subscription= mongoose.model("Subscription", subModel)
-export default subscription;
+const Subscription= mongoose.model("Subscription", subModel)
+export default Subscription;
